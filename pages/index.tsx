@@ -1,5 +1,7 @@
 import InputWithIcon from '@/components/atoms/Input';
 import Label from '@/components/atoms/Label';
+import List from '@/components/molecules/List';
+
 
 import Head from 'next/head';
 import Image from 'next/image';
@@ -15,8 +17,9 @@ export default function Home() {
       </Head>
 
       <main>
-        <Label label='something'/>
-        <InputWithIcon placeholder='something' />
+        <Label label='sata something'/>
+        <InputWithIcon placeholder='Enter restaurant name...' />
+        <List items={["All", "Sushi", "Piza", "Burgers", "Hit Meals"]}/>
         <h1 className={styles.title}>
           Welcome to <a href="https://nextjs.org">Next.js!</a>
         </h1>

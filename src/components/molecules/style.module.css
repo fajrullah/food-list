@@ -1,0 +1,57 @@
+/* 
+ * molecules/style.modules.css
+ * 
+ * CSS Module for styling molecules-level components in the "molecules" folder.
+ */
+
+/**
+ * Molecules Module
+ * 
+ * This CSS module provides styling for molecules-level components in the "molecules" folder.
+ * Molecules are components that combine multiple atomic-level components.
+ * 
+ * @module molecules/style.modules.css
+ */
+
+.horizontalList {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  background-color: #f7f8fa;
+  border: 1px solid #ffc700;
+  border-radius: 15px;
+}
+
+.horizontalList li {
+  padding: 10px;
+  background-color: transparent; 
+  border-left: 1px solid #ffc700; 
+  min-width: 64px;
+  text-align: center;
+}
+
+.horizontalList li:first-child {
+  border-left: none;
+}
+
+.horizontalList li:last-child {
+  border-right: none;
+}
+
+.horizontalList li:hover {
+  background-color: #ffc700;
+}
+
+.horizontalList li:first-child:hover {
+  border-top-left-radius: 12px;
+  border-bottom-left-radius: 12px;
+}
+
+.horizontalList li:last-child:hover {
+  border-top-right-radius: 12px;
+  border-bottom-right-radius: 12px;
+}
+
+.horizontalList li:not(:first-child):not(:last-child) {
+  transition: background-color 0.3s; 
+}
