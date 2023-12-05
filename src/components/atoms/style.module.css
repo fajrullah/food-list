@@ -33,7 +33,34 @@
 }
 
 .starField {
-  font-size: 16;
+  font-size: 9px;
   display: flex;
   align-items: center;
+  background-color: #f7f8fa;
+  min-width: 32px;
+  border-radius: 12px;
+  padding: 4px 10px;
+  height: 100%;
+}
+
+.chip {
+  height: 100%;
+  width: auto;
+  min-width: 32px;
+  padding: 4px 10px;
+  background-color: #f7f8fa;
+  border-radius: 12px;
+}
+
+.chipText {
+  margin: 0px;
+  font-size: 9px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.chipIsNew {
+  color: #55c4a2;
 }

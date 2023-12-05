@@ -9,7 +9,7 @@ interface RatingProps {
 function Rating({ rating }: RatingProps) {
     return (
         <div className={style.starField}>            
-            <Image src="/assets/star-svgrepo-com.svg" alt="Food star" width={16} height={16} />
+            <Image src="/assets/star-svgrepo-com.svg" alt="Food star" width={9} height={9} />
             {rating.toFixed(1)}
         </div>
     )

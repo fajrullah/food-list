@@ -1,10 +1,11 @@
 import InputWithIcon from '@/components/atoms/Input';
 import Label from '@/components/atoms/Label';
 
+import Badge from '@/components/atoms/Badge';
+import Chip from '@/components/atoms/Chip';
 import Rating from '@/components/atoms/Rating';
 import List from '@/components/molecules/List';
 import Card from '@/components/organisms/Card';
-
 
 import Head from 'next/head';
 import Image from 'next/image';
@@ -25,6 +26,13 @@ export default function Home() {
         <List items={["All", "Sushi", "Piza", "Burgers", "Hit Meals"]}/>
         <Card items={[]} />
         <Rating rating={4.4423232} />
+        <Chip variant="new" />
+        <Chip variant="time" optionsTime={{
+          min: 100,
+          max: 100
+        }} />
+        <Badge variant={null}/>
+        <Badge variant={"1+1"}/>
         <h1 className={styles.title}>
           Welcome to <a href="https://nextjs.org">Next.js!</a>
         </h1>
