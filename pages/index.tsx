@@ -67,8 +67,8 @@ export default function Home() {
   return (
     <div className={styles.container}>
       <Head>
-        <title>Create Next App</title>
-        <link rel="icon" href="/favicon.ico" />
+        <title>YumPlates | Food</title>
+        <link rel="icon" href="/icons8-kawaii-cupcake-32.png" />
       </Head>
 
       <main>
