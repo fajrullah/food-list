@@ -1,6 +1,9 @@
 import InputWithIcon from '@/components/atoms/Input';
 import Label from '@/components/atoms/Label';
+
+import Rating from '@/components/atoms/Rating';
 import List from '@/components/molecules/List';
+import Card from '@/components/organisms/Card';
 
 
 import Head from 'next/head';
@@ -20,6 +23,8 @@ export default function Home() {
         <Label label='sata something'/>
         <InputWithIcon placeholder='Enter restaurant name...' />
         <List items={["All", "Sushi", "Piza", "Burgers", "Hit Meals"]}/>
+        <Card items={[]} />
+        <Rating rating={4.4423232} />
         <h1 className={styles.title}>
           Welcome to <a href="https://nextjs.org">Next.js!</a>
         </h1>

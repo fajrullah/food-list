@@ -31,3 +31,9 @@
 .labelField {
   text-transform: capitalize;
 }
+
+.starField {
+  font-size: 16;
+  display: flex;
+  align-items: center;
+}

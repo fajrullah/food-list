@@ -1,6 +1,6 @@
 
 import style from "@/components/atoms/style.module.css";
-interface LabelProps {
+interface InputProps {
     readonly placeholder: string
 }
 
@@ -22,7 +22,7 @@ interface LabelProps {
  * - Customize appearance with the `style.inputField` class.
  */
 
-function Input({ placeholder }: LabelProps) {
+function Input({ placeholder }: InputProps) {
     return (<input className={style.inputField} type="text" placeholder={placeholder}/>
     )
 }
