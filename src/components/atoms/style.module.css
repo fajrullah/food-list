@@ -1,0 +1,33 @@
+
+/* 
+ * atoms/style.modules.css
+ * 
+ * CSS Module for styling atomic-level components in the "atoms" folder.
+ */
+
+/**
+ * Atoms Module
+ * 
+ * This CSS module provides styling for atomic-level components in the "atoms" folder.
+ * Atomic components are small, reusable UI elements.
+ * 
+ * @module atoms/style.modules.css
+ */
+
+.inputField {
+  background-color: white;
+  background-image: url('/assets/search-svgrepo-com.svg');
+  background-size: 24px;
+  background-position: 10px 10px;
+  background-repeat: no-repeat;
+  padding: 12px 40px;
+  width: 100%;
+  margin: 24px 0;
+  box-sizing: border-box;
+  border: 2px solid #efeff1;
+  border-radius: 12px;
+}
+
+.labelField {
+  text-transform: capitalize;
+}
