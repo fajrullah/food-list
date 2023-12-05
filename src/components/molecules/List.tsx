@@ -1,7 +1,7 @@
 import Label from "@/components/atoms/Label";
 import style from "./style.module.css";
 
-interface LabelProps {
+interface ListProps {
     readonly items: string[]
 }
 
@@ -23,7 +23,7 @@ interface LabelProps {
  * <List items={myListItems} />
  */
 
-function List({ items }: LabelProps) {
+function List({ items }: ListProps) {
     return (
         <ul className={style.horizontalList}>
             {
