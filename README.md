@@ -31,6 +31,7 @@ Visit <a aria-label="demo" href="https://food-list-five.vercel.app/">https://foo
 In your terminal, run the following command:
 
 ```bash
+npm install
 npm run dev
 ```
 
