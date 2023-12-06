@@ -22,8 +22,8 @@ import style from './style.module.css';
 function List({ items }: ListProps) {
   return (
     <ul className={style.horizontalList}>
-      {items?.map((key) => (
-        <li key={key.id}>
+      {items?.map((key, index) => (
+        <li key={key.id + index}>
           <Label label={key.name} />
         </li>
       ))}
