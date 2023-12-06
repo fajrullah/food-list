@@ -23,7 +23,7 @@ function List({ items }: ListProps) {
   return (
     <ul className={style.horizontalList}>
       {items?.map((key, index) => (
-        <li key={key.id + index}>
+        <li key={`${key.id + index}`}>
           <Label label={key.name} />
         </li>
       ))}
