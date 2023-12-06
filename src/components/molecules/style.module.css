@@ -26,12 +26,15 @@
   padding: 10px;
   background-color: transparent; 
   border-left: 1px solid #ffc700; 
-  min-width: 64px;
+  min-width: 7rem;
   text-align: center;
 }
 
 .horizontalList li:first-child {
+  background-color: #ffc700; /* Set default background color for the first item */
   border-left: none;
+  border-top-left-radius: 12px;
+  border-bottom-left-radius: 12px;
 }
 
 .horizontalList li:last-child {

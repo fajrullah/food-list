@@ -1,78 +1,100 @@
+import Button from '@/components/atoms/Button';
 import InputWithIcon from '@/components/atoms/Input';
-import Label from '@/components/atoms/Label';
-
-import Rating from '@/components/atoms/Rating';
 import List from '@/components/molecules/List';
 import Card from '@/components/organisms/Card';
-
-
-import Head from 'next/head';
-import Image from 'next/image';
-
 import styles from '@/pages/index.module.css';
+import axios from 'axios';
+import _ from 'lodash';
+import Head from 'next/head';
+import { useEffect, useRef, useState } from 'react';
 
 export default function Home() {
+  const [categories, setCategories] = useState<CategoriesInterface[]>([
+    {
+      id: 'all',
+      name: 'All',
+    },
+  ]);
+  const [foods, setFoods] = useState<FoodInterface[]>([]);
+  const [currentPage, setCurrentPage] = useState<number>(0);
+  const foodRef = useRef<any>(null);
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        // get response from API to fetch categories
+        const response = await axios.get(
+          'https://run.mocky.io/v3/b88ec762-2cb3-4015-8960-2839b06a7593',
+        );
+        const responseCategories = response.data ?? [];
+
+        setCategories([
+          {
+            id: 'all',
+            name: 'All',
+          },
+          ...responseCategories,
+        ]);
+      } catch (error) {
+        setCategories([]);
+      }
+    };
+    fetchCategories();
+  }, []);
+
+  useEffect(() => {
+    const fetchFoods = async () => {
+      try {
+        const response = await axios.get(
+          'https://run.mocky.io/v3/c75dc0d8-ad78-4b3d-b697-807a5ded8645',
+        );
+
+        const arrayFoods = response.data?.foods ?? [];
+
+        const arrayChunk = _.chunk(arrayFoods, 6) as any;
+
+        foodRef.current = arrayChunk;
+
+        const page = 0;
+
+        setCurrentPage(page);
+
+        setFoods(arrayChunk[page]);
+      } catch (error) {
+        setFoods([]);
+      }
+    };
+    fetchFoods();
+  }, []);
+
+  const handlePagination = () => {
+    const getData = foodRef.current[currentPage + 1] ?? [];
+    setCurrentPage((prevPage) => prevPage + 1);
+    setFoods((prevSate) => [...prevSate, ...getData]);
+  };
+
   return (
     <div className={styles.container}>
       <Head>
-        <title>Create Next App</title>
-        <link rel="icon" href="/favicon.ico" />
+        <title>YumPlates | Food</title>
+        <link rel="icon" href="/icons8-kawaii-cupcake-32.png" />
       </Head>
-
       <main>
-        <Label label='sata something'/>
-        <InputWithIcon placeholder='Enter restaurant name...' />
-        <List items={["All", "Sushi", "Piza", "Burgers", "Hit Meals"]}/>
-        <Card items={[]} />
-        <Rating rating={4.4423232} />
-        <h1 className={styles.title}>
-          Welcome to <a href="https://nextjs.org">Next.js!</a>
-        </h1>
-
-        <p className={styles.description}>
-          Get started by editing <code>pages/index.js</code>
-        </p>
-
-        <div className={styles.grid}>
-          <a href="https://nextjs.org/docs" className={styles.card}>
-            <h3>Documentation &rarr;</h3>
-            <p>Find in-depth information about Next.js features and API.</p>
-          </a>
-
-          <a href="https://nextjs.org/learn" className={styles.card}>
-            <h3>Learn &rarr;</h3>
-            <p>Learn about Next.js in an interactive course with quizzes!</p>
-          </a>
-
-          <a
-            href="https://github.com/vercel/next.js/tree/canary/examples"
-            className={styles.card}
-          >
-            <h3>Examples &rarr;</h3>
-            <p>Discover and deploy boilerplate example Next.js projects.</p>
-          </a>
-
-          <a href="https://vercel.com/new" className={styles.card}>
-            <h3>Deploy &rarr;</h3>
-            <p>
-              Instantly deploy your Next.js site to a public URL with Vercel.
-            </p>
-          </a>
+        <div className={styles.searchContainer}>
+          <div className={styles.search}>
+            <InputWithIcon placeholder="Enter restaurant name..." />
+          </div>
+          <div className={styles.search}>
+            <List items={categories} />
+          </div>
         </div>
+        <div className={styles.grid}>
+          {foods?.map((key) => {
+            return <Card items={key} key={key.id} />;
+          })}
+        </div>
+        <Button onClick={handlePagination} />
       </main>
-
-      <footer className={styles.footer}>
-        <a
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by{' '}
-          <span className={styles.logo}>
-            <Image src="/vercel.svg" alt="Vercel Logo" width={72} height={16} />
-          </span>
-        </a>
-      </footer>
     </div>
-  )
+  );
 }

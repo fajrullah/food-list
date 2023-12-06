@@ -1,9 +1,5 @@
-import Label from "@/components/atoms/Label";
-import style from "./style.module.css";
-
-interface ListProps {
-    readonly items: string[]
-}
+import Label from '@/components/atoms/Label';
+import style from './style.module.css';
 
 /**
  * List Component
@@ -24,13 +20,15 @@ interface ListProps {
  */
 
 function List({ items }: ListProps) {
-    return (
-        <ul className={style.horizontalList}>
-            {
-                items.map((key) => <li key={key}><Label label={key} /></li>)
-            }
-        </ul>
-    )
+  return (
+    <ul className={style.horizontalList}>
+      {items?.map((key, index) => (
+        <li key={`${key.id + index}`}>
+          <Label label={key.name} />
+        </li>
+      ))}
+    </ul>
+  );
 }
 
 export default List;
