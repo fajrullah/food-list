@@ -1,47 +1,72 @@
+import Image from 'next/image';
+import style from './style.module.css';
 
-import style from "./style.module.css";
-
-interface BadgeProps{
-    readonly variant: string | null;
+interface BadgeProps {
+  readonly variant: string | null;
 }
 
-const variantGift = () => {
-    return <div>Gift</div>
-}
-
-const variantGetOne = () => {
-    return <div>1+1</div>
-}
-
-const variantDiscount = () => {
-    return <div>%</div>
+enum BadgeTypes {
+  GIFT = 'gift',
+  BUYONE_GETONE = '1+1',
+  DISCOUNT = 'discount',
 }
 
 const getVariant = (variant: string) => {
-    if(variant === "gift"){
-        return variantGift()
-    }
+  switch (variant) {
+    case BadgeTypes.GIFT:
+      return (
+        <Image
+          src="/assets/gift-svgrepo-com.svg"
+          alt="Food star"
+          width={9}
+          height={9}
+        />
+      );
+    case BadgeTypes.BUYONE_GETONE:
+      return BadgeTypes.BUYONE_GETONE;
+    case BadgeTypes.DISCOUNT:
+      return (
+        <Image
+          src="/assets/discount-svgrepo-com.svg"
+          alt="Food star"
+          width={9}
+          height={9}
+        />
+      );
+    default:
+      return null;
+  }
+};
 
-    if(variant === "1+1"){
-        return variantGetOne()
-    }
-
-    if(variant === "discount"){
-        return variantDiscount()
-    }
-    return null;
-}
+const getVariantBackgroundColor = (variant: string): string => {
+  switch (variant.toLowerCase()) {
+    case BadgeTypes.GIFT:
+      return '#00b1ff';
+    case BadgeTypes.BUYONE_GETONE:
+      return '#8f64ff';
+    case BadgeTypes.DISCOUNT:
+      return '#ff696f';
+    default:
+      return '#e0e0e0';
+  }
+};
 
 const renderBadge = (variant: string) => {
-    return (
-        <div className={style.chip}> 
-            { getVariant(variant.toLowerCase()) }
-        </div>
-    )
-}
+  const variantBackgroundColor = getVariantBackgroundColor(
+    variant.toLowerCase(),
+  );
+  return (
+    <div
+      className={`${style.chip} ${style.badge}`}
+      style={{ backgroundColor: variantBackgroundColor }}
+    >
+      {getVariant(variant.toLowerCase())}
+    </div>
+  );
+};
 
 function Badge({ variant }: BadgeProps) {
-    return variant && renderBadge(variant)
+  return variant && renderBadge(variant);
 }
 
 export default Badge;
