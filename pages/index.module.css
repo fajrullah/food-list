@@ -5,6 +5,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  background-color: #f6f7f9;
 }
 
 .title a {
@@ -39,9 +40,25 @@
   align-items: center;
   justify-content: center;
   flex-wrap: wrap;
+  max-width: 1440px;
+  margin-top: 1rem;
+}
 
-  max-width: 800px;
-  margin-top: 3rem;
+.searchContainer {
+  width: 100%;
+  display: flex;
+  align-items: flex-start; /* Align items to the start (top) */
+  justify-content: flex-start; /* Align items to the start (left) */
+  flex-direction: column;
+}
+
+.search {
+  flex-basis: 50%; /* Each child takes up 50% of the container width */
+}
+
+.list {
+  width: 50%;
+  display: flex;
 }
 
 .card {
@@ -85,3 +102,13 @@
     flex-direction: column;
   }
 }
+
+@media (max-width: 1024px) {
+  .searchContainer {
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+  }
+}
+
+

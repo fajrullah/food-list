@@ -3,23 +3,7 @@ import Chip from '@/components/atoms/Chip';
 import Rating from '@/components/atoms/Rating';
 import Image from 'next/image';
 
-import styles from './index.module.css';
 import childStyle from './style.module.css';
-interface FoodInterface {
-  id: string;
-  index: number;
-  rating: number;
-  promotion: string | null;
-  isNew: boolean;
-  categoryId: string;
-  minCookTime: number;
-  maxCookTime: number;
-  restaurant: string;
-  name: string;
-  imageUrl: string;
-}
-
-interface LabelProps extends FoodInterface {}
 
 const renderCardImage = (src: string) => {
   return (
@@ -34,35 +18,30 @@ const renderCardImage = (src: string) => {
   );
 };
 
-function Card({ imageUrl }: LabelProps) {
+function Card({ items }: CardProps) {
   return (
-    <div className={styles.grid}>
-      <div className={childStyle.card}>
-        {renderCardImage(imageUrl)}
-        <div
-          style={{
-            position: 'absolute',
-            top: '0',
-            left: '0',
-            zIndex: 2,
-            overflow: 'hidden',
-          }}
-        >
-          <Badge variant={'gift'} />
-        </div>
-        <div className={childStyle.cardBodyContainer}>
-          Dominos Pizza
-          <div className={childStyle.cardBodyContent}>
-            <Rating rating={4.4423232} />
-            <Chip
-              variant="time"
-              optionsTime={{
-                min: 100,
-                max: 100,
-              }}
-            />
-            <Chip variant="new" />
-          </div>
+    <div className={childStyle.card}>
+      {renderCardImage(items?.imageUrl)}
+
+      <div className={childStyle.cardBadge}>
+        <Badge variant={items?.promotion} />
+      </div>
+
+      <div className={childStyle.cardBodyContainer}>
+        {items?.name}
+
+        <div className={childStyle.cardBodyContent}>
+          <Rating rating={items?.rating} />
+
+          <Chip
+            variant="time"
+            optionsTime={{
+              min: items?.minCookTime ?? 0,
+              max: items?.maxCookTime ?? 0,
+            }}
+          />
+
+          {items?.isNew && <Chip variant="new" />}
         </div>
       </div>
     </div>

@@ -1,9 +1,5 @@
 import style from './style.module.css';
 
-interface LabelProps {
-  readonly label: string;
-}
-
 /**
  * Label Component
  *

@@ -26,7 +26,8 @@
     overflow: hidden;
     font-size: 0.5rem;
     position: relative;
-    min-width: 11rem;
+    width: 100%;
+    max-width: 18rem;
     min-height: 16rem;
   }
   
@@ -61,8 +62,10 @@
     justify-content: space-between;
 }
 
-.cardImage {
-    width: '100%';
-    height: 'auto';
-    position: 'relative'; 
+.cardBadge {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 2;
+    overflow: hidden,
 }

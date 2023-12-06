@@ -1,10 +1,6 @@
 import Image from 'next/image';
 import style from './style.module.css';
 
-interface BadgeProps {
-  readonly variant: string | null;
-}
-
 enum BadgeTypes {
   GIFT = 'gift',
   BUYONE_GETONE = '1+1',

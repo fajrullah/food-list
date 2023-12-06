@@ -1,15 +1,5 @@
 import style from './style.module.css';
 
-interface ChipProps {
-  readonly variant: string;
-  readonly optionsTime?: TimeVariantProps;
-}
-
-interface TimeVariantProps {
-  readonly min: number;
-  readonly max: number;
-}
-
 const variantNew = () => {
   return <div className={`${style.chipText} ${style.chipIsNew}`}>New</div>;
 };
