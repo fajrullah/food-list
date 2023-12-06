@@ -25,7 +25,7 @@ This includes Next.js' built-in support for Global CSS, CSS Modules, and TypeScr
 [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/vercel/next.js/tree/canary/examples/with-jest&project-name=with-jest&repository-name=with-jest)
 
 ## Demo
-Visit <a aria-label="demo" href="https://www.google.com">www.google.com</a> to get the visualization.
+Visit <a aria-label="demo" href="https://food-list-five.vercel.app/">https://food-list-five.vercel.app/</a> to get the visualization.
 
 ## How to Use
 In your terminal, run the following command:
