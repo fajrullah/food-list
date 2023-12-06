@@ -37,7 +37,7 @@ describe('List component', () => {
     const list = screen.getByRole('list');
     const { getAllByRole } = within(list);
     const items = getAllByRole('listitem');
-    expect(items.length).toBe(4);
+    expect(items.length).toBe(5);
   });
 
   it('it should render a List', () => {
