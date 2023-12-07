@@ -2,7 +2,7 @@ import Badge from '@/components/atoms/Badge';
 import Chip from '@/components/atoms/Chip';
 import Rating from '@/components/atoms/Rating';
 import Image from 'next/image';
-
+import { memo } from 'react';
 import childStyle from './style.module.css';
 
 const renderCardImage = (src: string) => {
@@ -48,4 +48,4 @@ function Card({ items }: CardProps) {
   );
 }
 
-export default Card;
+export default memo(Card);

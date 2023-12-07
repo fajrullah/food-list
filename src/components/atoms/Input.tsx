@@ -1,4 +1,5 @@
 import style from '@/components/atoms/style.module.css';
+import { memo } from 'react';
 
 /**
  * Input Component
@@ -30,4 +31,4 @@ function Input({ placeholder, onChange, value }: InputProps) {
   );
 }
 
-export default Input;
+export default memo(Input);
