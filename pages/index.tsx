@@ -6,7 +6,8 @@ import styles from '@/pages/index.module.css';
 import axios from 'axios';
 import _ from 'lodash';
 import Head from 'next/head';
-import { useEffect, useRef, useState } from 'react';
+import { ChangeEvent, useEffect, useRef, useState } from 'react';
+import { useDebounce } from 'usehooks-ts';
 
 export default function Home() {
   const [categories, setCategories] = useState<CategoriesInterface[]>([
@@ -17,6 +18,27 @@ export default function Home() {
   ]);
   const [foods, setFoods] = useState<FoodInterface[]>([]);
   const [currentPage, setCurrentPage] = useState<number>(0);
+  const [search, setSearch] = useState<string>('');
+  const [category, setCategory] = useState<string>('');
+  const debouncedSearch = useDebounce<string>(search, 1000);
+  const debouncedCategory = useDebounce<string>(category, 1000);
+
+  useEffect(() => {
+    console.log('doing the bounce', debouncedSearch);
+  }, [debouncedSearch]);
+
+  useEffect(() => {
+    console.log('doing the bounce', debouncedCategory);
+  }, [debouncedCategory]);
+
+  const handleSearchChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setSearch(event.target.value);
+  };
+
+  const handleFilterCategories = (id: string) => {
+    setCategory(id);
+  };
+
   const foodRef = useRef<any>(null);
 
   useEffect(() => {
@@ -82,10 +104,13 @@ export default function Home() {
       <main>
         <div className={styles.searchContainer}>
           <div className={styles.search}>
-            <InputWithIcon placeholder="Enter restaurant name..." />
+            <InputWithIcon
+              placeholder="Enter restaurant name..."
+              onChange={handleSearchChange}
+            />
           </div>
           <div className={styles.search}>
-            <List items={categories} />
+            <List items={categories} onClick={handleFilterCategories} />
           </div>
         </div>
         <div className={styles.grid}>
