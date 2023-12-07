@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import Button from '@/components/atoms/Button';
 import InputWithIcon from '@/components/atoms/Input';
 import List from '@/components/molecules/List';
@@ -6,9 +7,13 @@ import styles from '@/pages/index.module.css';
 import axios from 'axios';
 import _ from 'lodash';
 import Head from 'next/head';
-import { ChangeEvent, useEffect, useRef, useState } from 'react';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { ChangeEvent, useCallback, useEffect, useRef, useState } from 'react';
 import { useDebounce } from 'usehooks-ts';
-
+enum URL_API {
+  categories = 'https://run.mocky.io/v3/b88ec762-2cb3-4015-8960-2839b06a7593',
+  foods = 'https://run.mocky.io/v3/c75dc0d8-ad78-4b3d-b697-807a5ded8645',
+}
 export default function Home() {
   const [categories, setCategories] = useState<CategoriesInterface[]>([
     {
@@ -20,34 +25,35 @@ export default function Home() {
   const [currentPage, setCurrentPage] = useState<number>(0);
   const [search, setSearch] = useState<string>('');
   const [category, setCategory] = useState<string>('');
+  const pathname = usePathname();
+  const router = useRouter();
+
+  const searchParams = useSearchParams();
+
+  const createQueryString = useCallback(
+    (name: string, value: string) => {
+      const params = new URLSearchParams(searchParams);
+      params.set(name, value);
+      if (!value) {
+        params.delete(name);
+      }
+      return params.toString();
+    },
+    [searchParams],
+  );
+
   const debouncedSearch = useDebounce<string>(search, 1000);
-  const debouncedCategory = useDebounce<string>(category, 1000);
-
-  useEffect(() => {
-    console.log('doing the bounce', debouncedSearch);
-  }, [debouncedSearch]);
-
-  useEffect(() => {
-    console.log('doing the bounce', debouncedCategory);
-  }, [debouncedCategory]);
-
-  const handleSearchChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setSearch(event.target.value);
-  };
-
-  const handleFilterCategories = (id: string) => {
-    setCategory(id);
-  };
-
+  const debouncedCategory = useDebounce<string>(category, 700);
   const foodRef = useRef<any>(null);
+
+  useEffect(() => {}, [debouncedSearch]);
+
+  useEffect(() => {}, [debouncedCategory]);
 
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        // get response from API to fetch categories
-        const response = await axios.get(
-          'https://run.mocky.io/v3/b88ec762-2cb3-4015-8960-2839b06a7593',
-        );
+        const response = await axios.get(URL_API.categories);
         const responseCategories = response.data ?? [];
 
         setCategories([
@@ -67,9 +73,7 @@ export default function Home() {
   useEffect(() => {
     const fetchFoods = async () => {
       try {
-        const response = await axios.get(
-          'https://run.mocky.io/v3/c75dc0d8-ad78-4b3d-b697-807a5ded8645',
-        );
+        const response = await axios.get(URL_API.foods);
 
         const arrayFoods = response.data?.foods ?? [];
 
@@ -88,6 +92,21 @@ export default function Home() {
     };
     fetchFoods();
   }, []);
+
+  const handleSearchChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setSearch(event.target.value);
+    router.push(
+      pathname + '?' + createQueryString('search', event.target.value),
+      { scroll: false },
+    );
+  };
+
+  const handleFilterCategories = (id: string) => {
+    setCategory(id);
+    router.push(pathname + '?' + createQueryString('category', id), {
+      scroll: false,
+    });
+  };
 
   const handlePagination = () => {
     const getData = foodRef.current[currentPage + 1] ?? [];
