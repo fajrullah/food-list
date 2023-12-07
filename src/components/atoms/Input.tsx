@@ -1,7 +1,4 @@
 import style from '@/components/atoms/style.module.css';
-interface InputProps {
-  readonly placeholder: string;
-}
 
 /**
  * Input Component
@@ -21,9 +18,15 @@ interface InputProps {
  * - Customize appearance with the `style.inputField` class.
  */
 
-function Input({ placeholder }: InputProps) {
+function Input({ placeholder, onChange, value }: InputProps) {
   return (
-    <input className={style.inputField} type="text" placeholder={placeholder} />
+    <input
+      onChange={onChange}
+      className={style.inputField}
+      value={value}
+      type="text"
+      placeholder={placeholder}
+    />
   );
 }
 

@@ -48,6 +48,7 @@ interface ButtonProps {
 
 interface ListProps {
   readonly items: CategoriesInterface[];
+  onClick: (id: string) => void;
 }
 
 interface RatingProps {
@@ -70,4 +71,10 @@ interface FoodInterface {
 
 interface CardProps {
   readonly items: FoodInterface;
+}
+
+interface InputProps {
+  readonly placeholder: string;
+  value?: string;
+  onChange: (event: ChangeEvent<HTMLInputElement>) => void;
 }
