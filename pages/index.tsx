@@ -27,6 +27,10 @@ export default function Home() {
   const [category, setCategory] = useState<string>('');
   const pathname = usePathname();
   const router = useRouter();
+  const debouncedSearch = useDebounce<string>(search, 1000);
+  const debouncedCategory = useDebounce<string>(category, 700);
+  const foodRef = useRef<FoodInterface[]>([]);
+  const foodPaginationRef = useRef<any>([]);
 
   const searchParams = useSearchParams();
 
@@ -42,13 +46,60 @@ export default function Home() {
     [searchParams],
   );
 
-  const debouncedSearch = useDebounce<string>(search, 1000);
-  const debouncedCategory = useDebounce<string>(category, 700);
-  const foodRef = useRef<any>(null);
+  const filterData = () => {
+    const immutableFoodRef = foodRef.current;
 
-  useEffect(() => {}, [debouncedSearch]);
+    const arrayFoods = immutableFoodRef.filter((key) => {
+      if (search && category) {
+        const validateCategory = key.categoryId === category;
+        const name = key.name.toLowerCase();
+        const searchToLower = search.toLowerCase();
+        return validateCategory && name.includes(searchToLower);
+      }
 
-  useEffect(() => {}, [debouncedCategory]);
+      if (category) {
+        const validateCategory = key.categoryId === category;
+        return validateCategory;
+      }
+
+      if (search) {
+        const name = key.name.toLowerCase();
+        const searchToLower = search.toLowerCase();
+        return name.includes(searchToLower);
+      }
+    });
+
+    const arrayChunk = _.chunk(arrayFoods, 6) as any;
+
+    foodPaginationRef.current = arrayChunk;
+
+    const page = 0;
+
+    setCurrentPage(page);
+
+    setFoods(arrayChunk[page]);
+  };
+
+  useEffect(() => {
+    router.push(pathname + '?' + createQueryString('search', debouncedSearch), {
+      scroll: false,
+    });
+  }, [debouncedSearch]);
+
+  useEffect(() => {
+    filterData();
+  }, [debouncedSearch, debouncedCategory]);
+
+  useEffect(() => {
+    const search = searchParams.get('search');
+    const category = searchParams.get('category');
+    if (search) {
+      setSearch(search);
+    }
+    if (category) {
+      setCategory(category);
+    }
+  }, [searchParams]);
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -77,9 +128,11 @@ export default function Home() {
 
         const arrayFoods = response.data?.foods ?? [];
 
+        foodRef.current = arrayFoods;
+
         const arrayChunk = _.chunk(arrayFoods, 6) as any;
 
-        foodRef.current = arrayChunk;
+        foodPaginationRef.current = arrayChunk;
 
         const page = 0;
 
@@ -93,26 +146,28 @@ export default function Home() {
     fetchFoods();
   }, []);
 
-  const handleSearchChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setSearch(event.target.value);
-    router.push(
-      pathname + '?' + createQueryString('search', event.target.value),
-      { scroll: false },
-    );
-  };
+  const handleSearchChange = useCallback(
+    (event: ChangeEvent<HTMLInputElement>) => {
+      setSearch(event.target.value);
+    },
+    [],
+  );
 
-  const handleFilterCategories = (id: string) => {
-    setCategory(id);
-    router.push(pathname + '?' + createQueryString('category', id), {
-      scroll: false,
-    });
-  };
+  const handleFilterCategories = useCallback(
+    (id: string) => {
+      setCategory(id);
+      router.push(pathname + '?' + createQueryString('category', id), {
+        scroll: false,
+      });
+    },
+    [router, setCategory],
+  );
 
-  const handlePagination = () => {
-    const getData = foodRef.current[currentPage + 1] ?? [];
+  const handlePagination = useCallback(() => {
+    const getData = foodPaginationRef.current[currentPage + 1] ?? [];
     setCurrentPage((prevPage) => prevPage + 1);
-    setFoods((prevSate) => [...prevSate, ...getData]);
-  };
+    setFoods((prevState) => [...prevState, ...getData]);
+  }, [currentPage, setFoods, setCurrentPage, foodPaginationRef]);
 
   return (
     <div className={styles.container}>
@@ -126,6 +181,7 @@ export default function Home() {
             <InputWithIcon
               placeholder="Enter restaurant name..."
               onChange={handleSearchChange}
+              value={search}
             />
           </div>
           <div className={styles.search}>

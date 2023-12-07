@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import { memo } from 'react';
 import style from './style.module.css';
 
 function Button({ onClick }: ButtonProps) {
@@ -18,4 +19,4 @@ function Button({ onClick }: ButtonProps) {
   );
 }
 
-export default Button;
+export default memo(Button);

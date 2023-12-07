@@ -1,6 +1,6 @@
 import Label from '@/components/atoms/Label';
+import { memo } from 'react';
 import style from './style.module.css';
-
 /**
  * List Component
  *
@@ -31,4 +31,4 @@ function List({ items, onClick }: ListProps) {
   );
 }
 
-export default List;
+export default memo(List);
