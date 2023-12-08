@@ -14,10 +14,14 @@ enum URL_API {
   categories = 'https://run.mocky.io/v3/b88ec762-2cb3-4015-8960-2839b06a7593',
   foods = 'https://run.mocky.io/v3/c75dc0d8-ad78-4b3d-b697-807a5ded8645',
 }
+enum CATEGORY {
+  ALL = 'all',
+}
+const ARRAY_CHUNK = 9;
 export default function Home() {
   const [categories, setCategories] = useState<CategoriesInterface[]>([
     {
-      id: 'all',
+      id: CATEGORY.ALL,
       name: 'All',
     },
   ]);
@@ -25,60 +29,23 @@ export default function Home() {
   const [currentPage, setCurrentPage] = useState<number>(0);
   const [search, setSearch] = useState<string>('');
   const [category, setCategory] = useState<string>('');
+  const [isShowingShowMore, setIsShowingShowMore] = useState<boolean>(true);
   const pathname = usePathname();
   const router = useRouter();
   const debouncedSearch = useDebounce<string>(search, 1000);
   const debouncedCategory = useDebounce<string>(category, 700);
   const foodRef = useRef<FoodInterface[]>([]);
   const foodPaginationRef = useRef<any>([]);
-
   const searchParams = useSearchParams();
 
   const createQueryString = useCallback(
     (name: string, value: string) => {
       const params = new URLSearchParams(searchParams);
       params.set(name, value);
-      if (!value) {
-        params.delete(name);
-      }
       return params.toString();
     },
     [searchParams],
   );
-
-  const filterData = () => {
-    const immutableFoodRef = foodRef.current;
-
-    const arrayFoods = immutableFoodRef.filter((key) => {
-      if (search && category) {
-        const validateCategory = key.categoryId === category;
-        const name = key.name.toLowerCase();
-        const searchToLower = search.toLowerCase();
-        return validateCategory && name.includes(searchToLower);
-      }
-
-      if (category) {
-        const validateCategory = key.categoryId === category;
-        return validateCategory;
-      }
-
-      if (search) {
-        const name = key.name.toLowerCase();
-        const searchToLower = search.toLowerCase();
-        return name.includes(searchToLower);
-      }
-    });
-
-    const arrayChunk = _.chunk(arrayFoods, 6) as any;
-
-    foodPaginationRef.current = arrayChunk;
-
-    const page = 0;
-
-    setCurrentPage(page);
-
-    setFoods(arrayChunk[page]);
-  };
 
   useEffect(() => {
     router.push(pathname + '?' + createQueryString('search', debouncedSearch), {
@@ -87,8 +54,62 @@ export default function Home() {
   }, [debouncedSearch]);
 
   useEffect(() => {
+    router.push(
+      pathname + '?' + createQueryString('category', debouncedCategory),
+      {
+        scroll: false,
+      },
+    );
+  }, [debouncedCategory]);
+
+  useEffect(() => {
+    router.push(pathname + '?' + createQueryString('search', debouncedSearch), {
+      scroll: false,
+    });
+  }, [debouncedSearch]);
+
+  useEffect(() => {
+    const filterData = () => {
+      const immutableFoodRef = foodRef.current;
+
+      const arrayFoods = immutableFoodRef.filter((key) => {
+        const categoryAll = category === CATEGORY.ALL;
+        if (search && category) {
+          const validateCategory = key.categoryId === category || categoryAll;
+          const name = key.name.toLowerCase();
+          const searchToLower = search.toLowerCase();
+          return validateCategory && name.includes(searchToLower);
+        }
+
+        if (category) {
+          const validateCategory = key.categoryId === category || categoryAll;
+          return validateCategory;
+        }
+
+        if (search) {
+          const name = key.name.toLowerCase();
+          const searchToLower = search.toLowerCase();
+          return name.includes(searchToLower);
+        }
+      });
+
+      const arrayChunk = _.chunk(arrayFoods, ARRAY_CHUNK) as any;
+
+      foodPaginationRef.current = arrayChunk;
+
+      const page = 0;
+
+      setCurrentPage(page);
+
+      setFoods(arrayChunk[page]);
+    };
     filterData();
   }, [debouncedSearch, debouncedCategory]);
+
+  useEffect(() => {
+    const leng = foodPaginationRef.current.length ?? 0;
+    setIsShowingShowMore(leng > 1 && currentPage + 1 < leng);
+  }, [foods]);
 
   useEffect(() => {
     const search = searchParams.get('search');
@@ -130,7 +151,7 @@ export default function Home() {
 
         foodRef.current = arrayFoods;
 
-        const arrayChunk = _.chunk(arrayFoods, 6) as any;
+        const arrayChunk = _.chunk(arrayFoods, ARRAY_CHUNK) as any;
 
         foodPaginationRef.current = arrayChunk;
 
@@ -139,6 +160,10 @@ export default function Home() {
         setCurrentPage(page);
 
         setFoods(arrayChunk[page]);
+
+        if (arrayChunk.length < 1) {
+          setIsShowingShowMore(false);
+        }
       } catch (error) {
         setFoods([]);
       }
@@ -153,15 +178,9 @@ export default function Home() {
     [],
   );
 
-  const handleFilterCategories = useCallback(
-    (id: string) => {
-      setCategory(id);
-      router.push(pathname + '?' + createQueryString('category', id), {
-        scroll: false,
-      });
-    },
-    [router, setCategory],
-  );
+  const handleFilterCategories = useCallback((id: string) => {
+    setCategory(id);
+  }, []);
 
   const handlePagination = useCallback(() => {
     const getData = foodPaginationRef.current[currentPage + 1] ?? [];
@@ -184,8 +203,14 @@ export default function Home() {
               value={search}
             />
           </div>
+        </div>
+        <div className={styles.searchContainer}>
           <div className={styles.search}>
-            <List items={categories} onClick={handleFilterCategories} />
+            <List
+              items={categories}
+              onClick={handleFilterCategories}
+              value={category}
+            />
           </div>
         </div>
         <div className={styles.grid}>
@@ -193,7 +218,7 @@ export default function Home() {
             return <Card items={key} key={key.id} />;
           })}
         </div>
-        <Button onClick={handlePagination} />
+        {isShowingShowMore && <Button onClick={handlePagination} />}
       </main>
     </div>
   );

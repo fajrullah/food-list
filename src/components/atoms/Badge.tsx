@@ -61,6 +61,27 @@ const renderBadge = (variant: string) => {
   );
 };
 
+/**
+ * Badge Component.
+ *
+ * @component
+ * @param {object} props - The properties of the Badge component.
+ * @param {string} props.variant - The type of badge to render. Accepted values: "discount", "1+1", "gift".
+ * @returns {JSX.Element|null} - The badge component with the specified variant, or null if no variant is provided.
+ *
+ * @example
+ * // Render a Badge with a discount variant
+ * <Badge variant="discount" />
+ *
+ * // Render a Badge with a 1+1 variant
+ * <Badge variant="1+1" />
+ *
+ * // Render a Badge with a gift variant
+ * <Badge variant="gift" />
+ *
+ * // Render nothing when no variant is provided
+ * <Badge />
+ */
 function Badge({ variant }: BadgeProps) {
   return variant && renderBadge(variant);
 }

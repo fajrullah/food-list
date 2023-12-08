@@ -17,7 +17,6 @@ import style from './style.module.css';
  * @remarks
  * - The label text is capitalized using the `textTransform` CSS property.
  */
-
 function Label({ label }: LabelProps) {
   return <div className={style.labelField}>{label}</div>;
 }
