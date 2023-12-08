@@ -56,6 +56,7 @@ const renderBadge = (variant: string) => {
   );
   return (
     <div
+      aria-label="badge"
       className={`${style.badge}`}
       style={{ backgroundColor: variantBackgroundColor }}
     >
