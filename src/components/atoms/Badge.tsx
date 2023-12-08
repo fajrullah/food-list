@@ -6,6 +6,9 @@ enum BadgeTypes {
   BUYONE_GETONE = '1+1',
   DISCOUNT = 'discount',
 }
+enum SIZE {
+  BADGE = 16,
+}
 
 const getVariant = (variant: string) => {
   switch (variant) {
@@ -14,8 +17,8 @@ const getVariant = (variant: string) => {
         <Image
           src="/assets/gift-svgrepo-com.svg"
           alt="Food star"
-          width={9}
-          height={9}
+          width={SIZE.BADGE}
+          height={SIZE.BADGE}
         />
       );
     case BadgeTypes.BUYONE_GETONE:
@@ -25,8 +28,8 @@ const getVariant = (variant: string) => {
         <Image
           src="/assets/discount-svgrepo-com.svg"
           alt="Food star"
-          width={9}
-          height={9}
+          width={SIZE.BADGE}
+          height={SIZE.BADGE}
         />
       );
     default:
@@ -53,7 +56,7 @@ const renderBadge = (variant: string) => {
   );
   return (
     <div
-      className={`${style.chip} ${style.badge}`}
+      className={`${style.badge}`}
       style={{ backgroundColor: variantBackgroundColor }}
     >
       {getVariant(variant.toLowerCase())}

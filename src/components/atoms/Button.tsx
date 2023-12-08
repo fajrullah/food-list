@@ -22,8 +22,8 @@ function Button({ onClick }: ButtonProps) {
       <Image
         src="/assets/plus-svgrepo-com.svg"
         alt="plus"
-        width={9}
-        height={9}
+        width={16}
+        height={16}
         style={{
           paddingRight: '0.2rem',
         }}

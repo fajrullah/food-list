@@ -11,7 +11,7 @@ const renderCardImage = (src: string) => {
       src={src}
       width={0}
       height={0}
-      sizes="100vw"
+      sizes="40vw"
       style={{ width: '100%', height: 'auto', position: 'relative', zIndex: 1 }}
       alt="food list"
     />

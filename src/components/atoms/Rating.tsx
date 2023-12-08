@@ -19,8 +19,8 @@ function Rating({ rating }: RatingProps) {
       <Image
         src="/assets/star-svgrepo-com.svg"
         alt="Food star"
-        width={9}
-        height={9}
+        width={16}
+        height={16}
       />
       {rating.toFixed(1)}
     </div>

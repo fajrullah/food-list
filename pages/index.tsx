@@ -28,7 +28,7 @@ export default function Home() {
   const [foods, setFoods] = useState<FoodInterface[]>([]);
   const [currentPage, setCurrentPage] = useState<number>(0);
   const [search, setSearch] = useState<string>('');
-  const [category, setCategory] = useState<string>('');
+  const [category, setCategory] = useState<string>(CATEGORY.ALL);
   const [isShowingShowMore, setIsShowingShowMore] = useState<boolean>(true);
   const pathname = usePathname();
   const router = useRouter();
@@ -200,7 +200,7 @@ export default function Home() {
             <InputWithIcon
               placeholder="Enter restaurant name..."
               onChange={handleSearchChange}
-              value={search}
+              value={search ?? 'all'}
             />
           </div>
         </div>
