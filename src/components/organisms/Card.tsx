@@ -48,7 +48,7 @@ const renderCardImage = (src: string) => {
  */
 function Card({ items }: CardProps) {
   return (
-    <div className={style.card}>
+    <div className={style.card} aria-label="card-food">
       {renderCardImage(items?.imageUrl)}
 
       <div className={style.cardBadge}>
