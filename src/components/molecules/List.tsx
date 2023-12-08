@@ -2,28 +2,31 @@ import Label from '@/components/atoms/Label';
 import { memo } from 'react';
 import style from './style.module.css';
 /**
- * List Component
- *
- * A React component that renders an unordered list (ul) with items from an array.
+ * Memoized List Component.
  *
  * @component
- *
  * @param {object} props - The properties of the List component.
- * @param {string[]} props.items - An array of strings representing the items to be displayed in the list.
- *
- * @returns {JSX.Element} List component.
+ * @param {Array<object>} props.items - An array of items to display in the list.
+ * @param {Function} props.onClick - The function to be called when an item is clicked.
+ * @param {string} props.value - The value representing the currently selected item.
+ * @returns {JSX.Element} - The memoized list component with items, highlighting the selected item.
  *
  * @example
- * // Basic usage of the List component
- * const myListItems = ["Item 1", "Item 2", "Item 3"];
- * <List items={myListItems} />
+ * // Render a memoized List with an array of items, onClick function, and a selected value
+ * <List items={[{ id: '1', name: 'Item 1' }, { id: '2', name: 'Item 2' }]} onClick={(id) => handleItemClick(id)} value={selectedItemId} />
+ *
+ * @note This component is memoized using React.memo to prevent unnecessary re-renders.
  */
 
-function List({ items, onClick }: ListProps) {
+function List({ items, onClick, value }: ListProps) {
   return (
     <ul className={style.horizontalList}>
       {items?.map((key, index) => (
-        <li key={`${key.id + index}`} onClick={() => onClick(key.id)}>
+        <li
+          className={`${key.id === value && style.active}`}
+          key={`${key.id + index}`}
+          onClick={() => onClick(key.id)}
+        >
           <Label label={key.name} />
         </li>
       ))}

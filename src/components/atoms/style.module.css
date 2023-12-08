@@ -21,11 +21,12 @@
   background-position: 10px 10px;
   background-repeat: no-repeat;
   padding: 12px 40px;
-  width: 100%;
+  max-width: 15rem;
   margin: 24px 0;
   box-sizing: border-box;
   border: 2px solid #efeff1;
   border-radius: 12px;
+  display: flex;
 }
 
 .labelField {
