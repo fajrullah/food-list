@@ -22,6 +22,10 @@
   border-radius: 15px;
 }
 
+.active {
+  background-color: #ffc700 !important; 
+}
+
 .horizontalList li {
   padding: 10px;
   background-color: transparent; 
@@ -31,7 +35,6 @@
 }
 
 .horizontalList li:first-child {
-  background-color: #ffc700; /* Set default background color for the first item */
   border-left: none;
   border-top-left-radius: 12px;
   border-bottom-left-radius: 12px;
@@ -39,6 +42,8 @@
 
 .horizontalList li:last-child {
   border-right: none;
+  border-top-right-radius: 12px;
+  border-bottom-right-radius: 12px;
 }
 
 .horizontalList li:hover {

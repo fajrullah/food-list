@@ -19,11 +19,15 @@ import style from './style.module.css';
  * <List items={myListItems} />
  */
 
-function List({ items, onClick }: ListProps) {
+function List({ items, onClick, value }: ListProps) {
   return (
     <ul className={style.horizontalList}>
       {items?.map((key, index) => (
-        <li key={`${key.id + index}`} onClick={() => onClick(key.id)}>
+        <li
+          className={`${value === key.id && style.active}`}
+          key={`${key.id + index}`}
+          onClick={() => onClick(key.id)}
+        >
           <Label label={key.name} />
         </li>
       ))}

@@ -185,7 +185,11 @@ export default function Home() {
             />
           </div>
           <div className={styles.search}>
-            <List items={categories} onClick={handleFilterCategories} />
+            <List
+              items={categories}
+              onClick={handleFilterCategories}
+              value={category}
+            />
           </div>
         </div>
         <div className={styles.grid}>

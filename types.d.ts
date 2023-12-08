@@ -49,6 +49,7 @@ interface ButtonProps {
 interface ListProps {
   readonly items: CategoriesInterface[];
   onClick: (id: string) => void;
+  value?: string;
 }
 
 interface RatingProps {
