@@ -48,6 +48,64 @@ export default function Home() {
   );
 
   useEffect(() => {
+    const controller = new AbortController();
+    const fetchCategories = async () => {
+      try {
+        const response = await axios.get(URL_API.categories, {
+          signal: controller.signal,
+        });
+        const responseCategories = response.data ?? [];
+
+        setCategories([
+          {
+            id: 'all',
+            name: 'All',
+          },
+          ...responseCategories,
+        ]);
+      } catch (error) {
+        setCategories([]);
+      }
+    };
+    fetchCategories();
+    return () => controller.abort();
+  }, []);
+
+  useEffect(() => {
+    const controller = new AbortController();
+
+    const fetchFoods = async () => {
+      try {
+        const response = await axios.get(URL_API.foods, {
+          signal: controller.signal,
+        });
+
+        const arrayFoods = response.data?.foods ?? [];
+
+        foodRef.current = arrayFoods;
+
+        const arrayChunk = _.chunk(arrayFoods, ARRAY_CHUNK) as any;
+
+        foodPaginationRef.current = arrayChunk;
+
+        const page = 0;
+
+        setCurrentPage(page);
+
+        setFoods(arrayChunk[page]);
+
+        if (arrayChunk.length < 1) {
+          setIsShowingShowMore(false);
+        }
+      } catch (error) {
+        setFoods([]);
+      }
+    };
+    fetchFoods();
+    return () => controller.abort();
+  }, []);
+
+  useEffect(() => {
     router.push(pathname + '?' + createQueryString('search', debouncedSearch), {
       scroll: false,
     });
@@ -121,64 +179,6 @@ export default function Home() {
       setCategory(category);
     }
   }, [searchParams]);
-
-  useEffect(() => {
-    const controller = new AbortController();
-    const fetchCategories = async () => {
-      try {
-        const response = await axios.get(URL_API.categories, {
-          signal: controller.signal,
-        });
-        const responseCategories = response.data ?? [];
-
-        setCategories([
-          {
-            id: 'all',
-            name: 'All',
-          },
-          ...responseCategories,
-        ]);
-      } catch (error) {
-        setCategories([]);
-      }
-    };
-    fetchCategories();
-    return () => controller.abort();
-  }, []);
-
-  useEffect(() => {
-    const controller = new AbortController();
-
-    const fetchFoods = async () => {
-      try {
-        const response = await axios.get(URL_API.foods, {
-          signal: controller.signal,
-        });
-
-        const arrayFoods = response.data?.foods ?? [];
-
-        foodRef.current = arrayFoods;
-
-        const arrayChunk = _.chunk(arrayFoods, ARRAY_CHUNK) as any;
-
-        foodPaginationRef.current = arrayChunk;
-
-        const page = 0;
-
-        setCurrentPage(page);
-
-        setFoods(arrayChunk[page]);
-
-        if (arrayChunk.length < 1) {
-          setIsShowingShowMore(false);
-        }
-      } catch (error) {
-        setFoods([]);
-      }
-    };
-    fetchFoods();
-    return () => controller.abort();
-  }, []);
 
   const handleSearchChange = useCallback(
     (event: ChangeEvent<HTMLInputElement>) => {
