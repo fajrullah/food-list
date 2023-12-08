@@ -4,7 +4,7 @@
 import Input from '@/components/atoms/Input';
 import { fireEvent, render, screen } from '@testing-library/react';
 
-describe('Label component', () => {
+describe('Input component', () => {
   it('it should render a input with placeholder', () => {
     const testLabel = 'Enter restaurant name';
     const inputValue = 'Test Value';

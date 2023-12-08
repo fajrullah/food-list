@@ -15,7 +15,7 @@ import style from './style.module.css';
  */
 function Rating({ rating }: RatingProps) {
   return (
-    <div className={style.starField}>
+    <div className={style.starField} aria-label="rating-food">
       <Image
         src="/assets/star-svgrepo-com.svg"
         alt="Food star"

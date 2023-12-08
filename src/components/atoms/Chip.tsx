@@ -32,7 +32,7 @@ const variantTime = ({ min, max }: TimeVariantProps) => {
  */
 function Chip({ variant, optionsTime }: ChipProps) {
   return (
-    <div className={style.chip}>
+    <div className={style.chip} aria-label="chip-description">
       {variant === 'new' && variantNew()}
       {variant === 'time' &&
         variantTime({ min: optionsTime?.min ?? 0, max: optionsTime?.max ?? 0 })}
