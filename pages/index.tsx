@@ -123,9 +123,12 @@ export default function Home() {
   }, [searchParams]);
 
   useEffect(() => {
+    const controller = new AbortController();
     const fetchCategories = async () => {
       try {
-        const response = await axios.get(URL_API.categories);
+        const response = await axios.get(URL_API.categories, {
+          signal: controller.signal,
+        });
         const responseCategories = response.data ?? [];
 
         setCategories([
@@ -140,12 +143,17 @@ export default function Home() {
       }
     };
     fetchCategories();
+    return () => controller.abort();
   }, []);
 
   useEffect(() => {
+    const controller = new AbortController();
+
     const fetchFoods = async () => {
       try {
-        const response = await axios.get(URL_API.foods);
+        const response = await axios.get(URL_API.foods, {
+          signal: controller.signal,
+        });
 
         const arrayFoods = response.data?.foods ?? [];
 
@@ -169,6 +177,7 @@ export default function Home() {
       }
     };
     fetchFoods();
+    return () => controller.abort();
   }, []);
 
   const handleSearchChange = useCallback(
