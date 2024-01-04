@@ -1,15 +1,15 @@
 <p align="center">
-  <a href="https://www.wego.co.id/">
+  <a href="https://www.google.com/">
     <img width="180" src="https://upload.wikimedia.org/wikipedia/commons/f/fb/Wego_Logo_Small.png" alt="Wego logo from wikipedia">
     <h1 align="center">Food list web application 🥘</h1>
   </a>
 </p>
 
 <p align="center">
-  <a aria-label="By logo"  href="https://www.wego.co.id/">
+  <a aria-label="By logo"  href="https://www.google.com/">
     <img src="https://img.shields.io/badge/MADE%20BY%20Fajrul-000000.svg?style=for-the-badge&logo=Vercel&labelColor=000">
   </a>
-  <a aria-label="NPM version" href="https://www.wego.co.id/">
+  <a aria-label="NPM version" href="https://www.google.com/">
     <img alt="" src="https://img.shields.io/npm/v/next.svg?style=for-the-badge&labelColor=000000">
   </a>
 </p>
