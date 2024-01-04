@@ -1,6 +1,5 @@
 <p align="center">
   <a href="https://www.google.com/">
-    <img width="180" src="https://upload.wikimedia.org/wikipedia/commons/f/fb/Wego_Logo_Small.png" alt="Wego logo from wikipedia">
     <h1 align="center">Food list web application 🥘</h1>
   </a>
 </p>
